@@ -1,0 +1,13 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+.vscode-upload.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+functions/package-lock.json
+package-lock.json

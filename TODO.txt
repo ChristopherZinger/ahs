@@ -1,0 +1,15 @@
+
+# SURVEY MODE
+- text under "Your Story" Headline
+- text unser "Red Flags" Headline
+- submit redirection doesn't work.
+- validate inputs - office name, city, country
+
+# BETA MODE
+-> signup functionality
+- login flow functionality
+- login forgot password
+- manage user in app
+- mobile navbar
+
+# BACKLOG - internationalization
