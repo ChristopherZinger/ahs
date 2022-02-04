@@ -2,16 +2,16 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { FS_ReadError } from '$src/errors';
+	import type { FS_Settings } from '$src/firebase/FS_types';
 	import { getRemoteSettings } from '$src/firebase/settings/getFirestoreSettings';
 	import { onMount } from 'svelte';
 
 	export let isModeSurvey = false;
 
 	const { url } = $page;
-	console.log(url.pathname, $page);
 	const pathBase = url.pathname.split('/').find((f) => !!f);
 
-	$: settings = undefined;
+	let settings: FS_ReadError | FS_Settings | undefined = undefined;
 
 	onMount(async () => {
 		const result = await getRemoteSettings();
@@ -21,6 +21,8 @@
 		}
 		settings = result;
 	});
+
+	$: settings;
 </script>
 
 {#if settings && !(settings instanceof FS_ReadError) && settings.isModeSurvey && pathBase === 'survey'}
