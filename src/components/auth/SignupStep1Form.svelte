@@ -19,13 +19,6 @@
 	let errors: Partial<Record<keyof typeof inputData, string[]>> = {};
 
 	async function submit(): Promise<void> {
-		const inputErrors = hasInputDataErrors({ ...inputData });
-
-		if (inputErrors) {
-			updateUiErrors(inputErrors);
-			return;
-		}
-
 		const result = await authEmailAndPassword.signup(inputData.email, inputData.password);
 
 		if (result instanceof AppError) {
@@ -54,6 +47,7 @@
 	}): void | Record<string, string[]> {
 		try {
 			signupSchema.validateSync(data, { abortEarly: false });
+			return {};
 		} catch (errors) {
 			return sortYupErrorsByInput(errors.inner);
 		}

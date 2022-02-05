@@ -7,7 +7,7 @@
 	import SignupStep1Form from './SignupStep1Form.svelte';
 
 	function onSubmit(): void {
-		goto('/');
+		goto(PATHS.app.index);
 	}
 </script>
 
