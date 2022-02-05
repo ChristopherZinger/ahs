@@ -4,7 +4,8 @@ export const APP_ERROR_CODES = {
 		emailAlreadyExists: 'auth/email-already-exists',
 		insufficientPermissions: 'auth/insufficient-permission',
 		wrongPassword: 'auth/wrong-password',
-		invalidEmail: 'auth/invalid-email'
+		invalidEmail: 'auth/invalid-email',
+		userNotFound: 'auth/user-not-found'
 	}
 };
 

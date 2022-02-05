@@ -1,10 +1,10 @@
 <script lang="ts">
 	import TextInput from '$src/components/form/TextInput.svelte';
-	import SubmitBtn from '$src/components/form/SubmitButton.svelte';
 	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import * as yup from 'yup';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
 	import { AppError, APP_ERROR_CODES } from '$src/errors';
+	import SubmitButton from '../form/SubmitButton.svelte';
 
 	export let onSubmit: () => void;
 
@@ -19,7 +19,9 @@
 	let errors: Partial<Record<keyof typeof inputData, string[]>> = {};
 
 	async function submit(): Promise<void> {
+		loading = true;
 		const result = await authEmailAndPassword.signup(inputData.email, inputData.password);
+		loading = false;
 
 		if (result instanceof AppError) {
 			if ((result.code = APP_ERROR_CODES.auth.emailAlreadyExists)) {
@@ -56,6 +58,8 @@
 	$: {
 		errors;
 	}
+	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: loading = false;
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -116,7 +120,7 @@
 		errors={(touchedInputs.has('passwordRepeat') ? errors.passwordRepeat : []) || []}
 	/>
 
-	<SubmitBtn>Next</SubmitBtn>
+	<SubmitButton disabled={disableSubmit} {loading}>Next</SubmitButton>
 </form>
 
 <style>

@@ -4,7 +4,7 @@
 - reset email
 - test user management and routes guards
 - proper logout - test
-- redirect on signup / login / logout
+- something went wrong error massages
 
 # SURVEY MODE
 - text under "Your Story" Headline

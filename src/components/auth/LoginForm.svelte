@@ -4,6 +4,7 @@
 	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
 	import * as yup from 'yup';
+	import SubmitButton from '../form/SubmitButton.svelte';
 
 	export let onSubmit: () => void;
 
@@ -13,15 +14,7 @@
 	};
 
 	const touchedInputs = new Set();
-	let errors: Partial<Record<keyof typeof inputValues, string[]>> = Object.keys(inputValues).reduce(
-		(acc, key) => {
-			return {
-				...acc,
-				[key]: []
-			};
-		},
-		{}
-	);
+	let errors: Partial<Record<keyof typeof inputValues, string[]>> = {};
 
 	const loginSchema = yup.object({
 		email: yup.string().email().required(),
@@ -30,7 +23,11 @@
 
 	async function submit(): Promise<void> {
 		const { password, email } = inputValues;
+
+		loading = true;
 		const result = await authEmailAndPassword.login(email, password);
+		loading = false;
+
 		if (result instanceof AppError) {
 			if (result.code === APP_ERROR_CODES.auth.wrongPassword) {
 				errors.password = ['Wrong password.'];
@@ -38,9 +35,12 @@
 			if (result.code === APP_ERROR_CODES.auth.invalidEmail) {
 				errors.email = ['Invalid email.'];
 			}
-			console.log({ ...result });
+			if (result.code === APP_ERROR_CODES.auth.userNotFound) {
+				errors.email = ["Email doesn't exists."];
+			}
+		} else {
+			onSubmit();
 		}
-		onSubmit();
 	}
 
 	function validate(): void {
@@ -61,6 +61,8 @@
 	$: {
 		errors;
 	}
+	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: loading = false;
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -92,7 +94,7 @@
 		errors={(touchedInputs.has('password') ? errors.password : []) || []}
 	/>
 
-	<button type="submit">Login</button>
+	<SubmitButton disabled={disableSubmit} {loading}>Login</SubmitButton>
 </form>
 
 <style>
@@ -101,15 +103,5 @@
 		flex-direction: column;
 		row-gap: 50px;
 		align-items: center;
-	}
-	button {
-		padding: 10px 20px;
-		border: 3px solid var(--color-black);
-		background-color: transparent;
-		font-size: 14px;
-		display: block;
-		width: 200px;
-		cursor: pointer;
-		margin: auto;
 	}
 </style>
