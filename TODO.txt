@@ -1,4 +1,11 @@
 
+# WIP
+- disable login and signup button when inputs are invalid
+- reset email
+- test user management and routes guards
+- proper logout - test
+- redirect on signup / login / logout
+
 # SURVEY MODE
 - text under "Your Story" Headline
 - text unser "Red Flags" Headline
