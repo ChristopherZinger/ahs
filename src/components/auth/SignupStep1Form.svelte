@@ -1,10 +1,10 @@
 <script lang="ts">
 	import TextInput from '$src/components/form/TextInput.svelte';
 	import SubmitBtn from '$src/components/form/SubmitButton.svelte';
-	import { authEmailAndPassword, FS_AUTH_ERR_CODES } from '$src/firebase/auth/emailAndPassword';
+	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import * as yup from 'yup';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
-	import { AppError } from '$src/errors';
+	import { AppError, APP_ERROR_CODES } from '$src/errors';
 
 	export let onSubmit: () => void;
 
@@ -29,7 +29,7 @@
 		const result = await authEmailAndPassword.signup(inputData.email, inputData.password);
 
 		if (result instanceof AppError) {
-			if ((result.message = FS_AUTH_ERR_CODES.EMAIL_ALREADY_EXISTS)) {
+			if ((result.code = APP_ERROR_CODES.auth.emailAlreadyExists)) {
 				errors.email = ['This email is taken. Choose another one or login.'];
 			}
 		} else {
@@ -38,7 +38,6 @@
 	}
 
 	function updateUiErrors(_errors: Record<string, string[]>): void {
-		console.log('update errors');
 		errors = _errors;
 	}
 
@@ -63,8 +62,6 @@
 	$: {
 		errors;
 	}
-
-	$: console.log(touchedInputs);
 </script>
 
 <form on:submit|preventDefault={submit}>
