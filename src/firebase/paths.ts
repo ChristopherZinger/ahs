@@ -5,5 +5,8 @@ export const PATHS = {
 	auth: {
 		signup: '/auth/signup',
 		login: '/auth/login'
+	},
+	app: {
+		index: '/app'
 	}
 };

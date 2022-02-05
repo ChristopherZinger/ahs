@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
+	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import { PATHS } from '$src/firebase/paths';
+	import { userStore } from '$src/stores/userStore';
 </script>
 
 <nav class="app-container">
@@ -13,8 +17,17 @@
 		</div>
 		<div class="nav-center" />
 		<div class="nav-right">
-			<a href={PATHS.auth.signup}>signup</a>
-			<a href={PATHS.auth.login}>login</a>
+			{#if $userStore}
+				<span
+					on:click={async () => {
+						await authEmailAndPassword.logout();
+						goto(PATHS.home.index);
+					}}>logout</span
+				>
+			{:else}
+				<a href={PATHS.auth.signup}>signup</a>
+				<a href={PATHS.auth.login}>login</a>
+			{/if}
 		</div>
 		<div class="toggle-btn">menu</div>
 	</div>
@@ -48,10 +61,12 @@
 		display: none;
 	}
 
-	.nav-right a {
+	.nav-right a,
+	.nav-right span {
 		font-family: 'Poppins Bold';
 		color: var(--color-black);
 		text-decoration: none;
+		cursor: pointer;
 	}
 
 	@media only screen and (min-width: 786px) {

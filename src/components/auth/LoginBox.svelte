@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { PATHS } from '$src/firebase/paths';
 	import Link from '../buttons/Link.svelte';
 	import Heading from '../text/Heading.svelte';
 	import LoginForm from './LoginForm.svelte';
 
 	function onSubmit(): void {
-		return;
+		goto(PATHS.app.index);
 	}
 </script>
 
