@@ -2,9 +2,9 @@
 	import TextInput from '$src/components/form/TextInput.svelte';
 	import SubmitBtn from '$src/components/form/SubmitButton.svelte';
 	import { authEmailAndPassword, FS_AUTH_ERR_CODES } from '$src/firebase/auth/emailAndPassword';
-	import { AppError } from '$src/errors';
 	import * as yup from 'yup';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
+	import { AppError } from '$src/errors';
 
 	export let onSubmit: () => void;
 
@@ -28,8 +28,8 @@
 
 		const result = await authEmailAndPassword.signup(inputData.email, inputData.password);
 
-		if (result instanceof Error) {
-			if ((result.code = FS_AUTH_ERR_CODES.EMAIL_ALREADY_EXISTS)) {
+		if (result instanceof AppError) {
+			if ((result.message = FS_AUTH_ERR_CODES.EMAIL_ALREADY_EXISTS)) {
 				errors.email = ['This email is taken. Choose another one or login.'];
 			}
 		} else {

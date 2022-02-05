@@ -1,3 +1,4 @@
+import { AppError } from './../../errors';
 import { app } from './../appFirebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import type { Auth, UserCredential } from 'firebase/auth';
@@ -13,7 +14,7 @@ class AuthEmailAndPassword {
 		try {
 			return await createUserWithEmailAndPassword(this.auth, email, password);
 		} catch (error) {
-			return error;
+			return new AppError(FS_AUTH_ERR_CODES.EMAIL_ALREADY_EXISTS, error);
 		}
 	}
 }

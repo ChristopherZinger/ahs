@@ -3,6 +3,15 @@
 	import SubmitBtn from '$src/components/form/SubmitButton.svelte';
 	import SelectInput from '../form/SelectInput.svelte';
 
+	/*
+    This form should be displayed when new user wants to 
+    see the reviews of other users
+    So first when user signs up he can see like 10 reivews
+    and after he has to give up his data.
+    Then he have like 20 more review reads 
+    after the he has to a review by himself.
+  */
+
 	export let onSubmit: () => void;
 
 	let username = '';
