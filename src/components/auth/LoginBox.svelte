@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 	import { PATHS } from '$src/firebase/paths';
 	import Link from '../buttons/Link.svelte';
 	import Heading from '../text/Heading.svelte';
 	import LoginForm from './LoginForm.svelte';
+
+	function onSubmit(): void {
+		return;
+	}
 </script>
 
 <div class="login-box light-shadow">
@@ -10,7 +14,7 @@
 		<Heading h={2} size={4}>Details</Heading>
 	</header>
 	<div class="login-form-wrapper">
-		<LoginForm />
+		<LoginForm {onSubmit} />
 	</div>
 	<div class="links">
 		<Link href=":javascript;" size="xs" style="color:var(--color-gray);">forgot password</Link>

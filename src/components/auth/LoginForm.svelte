@@ -1,13 +1,23 @@
 <script lang="ts">
 	import TextInput from '$src/components/form/TextInput.svelte';
-
-	function submit(): void {
-		console.log(password, email);
-	}
+	import { AppError, APP_ERROR_CODES } from '$src/errors';
+	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
+	export let onSubmit: () => void;
 
 	let password: string = '';
-
 	let email: string = '';
+
+	async function submit(): Promise<void> {
+		const result = await authEmailAndPassword.login(password, email);
+		if (result instanceof AppError) {
+			if (result.code === APP_ERROR_CODES.auth.invalidePassword) {
+				console.log('invalid password');
+			}
+			console.log('something went wrong');
+		}
+
+		onSubmit();
+	}
 
 	$: {
 		password, email;
