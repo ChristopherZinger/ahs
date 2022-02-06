@@ -1,7 +1,5 @@
 
-# WIP - MANAGE AUTH
-- reset email
-- something went wrong error massages for signup and login when error is sth else then Firebase errors
+# WIP - verify email 
 
 # SURVEY MODE
 - text under "Your Story" Headline
@@ -17,3 +15,6 @@
 - mobile navbar
 
 # BACKLOG - internationalization
+
+# TECHNIAL DEBT
+- something went wrong error massages for signup and login when error is sth else then Firebase errors
