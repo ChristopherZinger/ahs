@@ -1,10 +1,7 @@
 
 # WIP - MANAGE AUTH
-- disable login and signup button when inputs are invalid
 - reset email
-- test user management and routes guards
-- proper logout - test
-- something went wrong error massages
+- something went wrong error massages for signup and login when error is sth else then Firebase errors
 
 # SURVEY MODE
 - text under "Your Story" Headline

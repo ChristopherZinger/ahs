@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
 	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import { PATHS } from '$src/firebase/paths';
 	import { userStore } from '$src/stores/userStore';
+
+	$: homePath = $userStore ? PATHS.app.index : PATHS.home.index;
 </script>
 
 <nav class="app-container">
 	<div class="nav-inner">
 		<div class="nav-left">
 			<div class="logo">
-				<a href={PATHS.home.index}>
+				<a href={homePath}>
 					ARCHITECTURE<br />HORROR<br />STORY
 				</a>
 			</div>

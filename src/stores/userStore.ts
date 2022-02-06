@@ -18,7 +18,6 @@ const userStore = createUserStore();
 const auth = app.getAuth();
 
 onAuthStateChanged(auth, (_user) => {
-	console.log('user state changed', _user?.email);
 	if (_user) {
 		userStore.login(_user);
 	} else {
