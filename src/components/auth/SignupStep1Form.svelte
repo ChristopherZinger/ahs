@@ -28,12 +28,25 @@
 				errors.email = ['This email is taken. Choose another one or login.'];
 			}
 		} else {
+			if (!result.user.emailVerified) {
+				const verificationEmail = await authEmailAndPassword.setEmailVerification(result.user);
+			}
 			onSubmit();
 		}
 	}
 
-	function updateUiErrors(_errors: Record<string, string[]>): void {
-		errors = _errors;
+	function validate(): void {
+		try {
+			signupSchema.validateSync(inputData, { abortEarly: false });
+			errors = {};
+		} catch (_errors) {
+			errors = sortYupErrorsByInput(_errors.inner);
+		}
+	}
+
+	function handleBlur(inputName: keyof typeof inputData): void {
+		inputData[inputName] && touchedInputs.add(inputName);
+		validate();
 	}
 
 	const signupSchema = yup.object({
@@ -41,19 +54,6 @@
 		password: yup.string().required().min(7),
 		passwordRepeat: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
 	});
-
-	function hasInputDataErrors(data: {
-		password: string;
-		email: string;
-		passwordRepeat: string;
-	}): void | Record<string, string[]> {
-		try {
-			signupSchema.validateSync(data, { abortEarly: false });
-			return {};
-		} catch (errors) {
-			return sortYupErrorsByInput(errors.inner);
-		}
-	}
 
 	$: {
 		errors;
@@ -67,13 +67,11 @@
 		value={inputData.email}
 		onChange={(v) => {
 			inputData.email = v;
-			if (touchedInputs.has('email')) {
-				updateUiErrors(hasInputDataErrors(inputData) || {});
-			}
+			validate();
 		}}
 		onBlur={() => {
 			touchedInputs.add('email');
-			updateUiErrors(hasInputDataErrors(inputData) || {});
+			handleBlur('email');
 		}}
 		type="email"
 		label="*Email"
@@ -86,13 +84,11 @@
 		value={inputData.password}
 		onChange={(v) => {
 			inputData.password = v;
-			if (touchedInputs.has('password')) {
-				updateUiErrors(hasInputDataErrors(inputData) || {});
-			}
+			validate();
 		}}
 		onBlur={() => {
 			touchedInputs.add('password');
-			updateUiErrors(hasInputDataErrors(inputData) || {});
+			handleBlur('password');
 		}}
 		type="password"
 		label="*Password"
@@ -105,13 +101,11 @@
 		value={inputData.passwordRepeat}
 		onChange={(v) => {
 			inputData.passwordRepeat = v;
-			if (touchedInputs.has('passwordRepeat')) {
-				updateUiErrors(hasInputDataErrors(inputData) || {});
-			}
+			validate();
 		}}
 		onBlur={() => {
 			touchedInputs.add('passwordRepeat');
-			updateUiErrors(hasInputDataErrors(inputData) || {});
+			handleBlur('passwordRepeat');
 		}}
 		type="password"
 		label="*Password Repeat"

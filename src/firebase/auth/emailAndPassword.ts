@@ -5,9 +5,11 @@ import {
 	createUserWithEmailAndPassword,
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
-	signOut
+	signOut,
+	sendEmailVerification
 } from 'firebase/auth';
-import type { Auth, UserCredential } from 'firebase/auth';
+
+import type { Auth, User, UserCredential } from 'firebase/auth';
 import { PATHS } from '../paths';
 
 class BaseAuth {
@@ -18,12 +20,21 @@ class BaseAuth {
 	}
 
 	public async sendPasswordResetEmail(email: string): Promise<void | AppError> {
-		let url;
+		let url: undefined | string;
 		const remoteSettings = await getRemoteSettings();
 		if (!(remoteSettings instanceof AppError)) {
 			url = remoteSettings.appURL + PATHS.auth.login;
 		}
 		await sendPasswordResetEmail(this.auth, email, url ? { url } : undefined);
+	}
+
+	public async setEmailVerification(user: User): Promise<void | AppError> {
+		let url: undefined | string;
+		const remoteSettings = await getRemoteSettings();
+		if (!(remoteSettings instanceof AppError)) {
+			url = remoteSettings.appURL + PATHS.app.index;
+		}
+		await sendEmailVerification(user, url ? { url } : undefined);
 	}
 }
 
