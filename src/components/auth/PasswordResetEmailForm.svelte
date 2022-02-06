@@ -1,46 +1,39 @@
 <script lang="ts">
 	import TextInput from '$src/components/form/TextInput.svelte';
-	import { AppError, APP_ERROR_CODES } from '$src/errors';
+	import { AppError } from '$src/errors';
 	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
+	import { getRemoteSettings } from '$src/firebase/settings/getFirestoreSettings';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
 	import * as yup from 'yup';
 	import SubmitButton from '../form/SubmitButton.svelte';
 
 	export let onSubmit: () => void;
 
+	let appURL: string | undefined;
+
+	getRemoteSettings().then((result) => {
+		if (result instanceof AppError) {
+			errors.email = ['Unexpected error occured. Try again another time.'];
+		} else {
+			appURL = result.appURL;
+		}
+	});
+
 	const inputValues = {
-		password: '',
 		email: ''
 	};
 
-	const touchedInputs = new Set();
 	let errors: Partial<Record<keyof typeof inputValues, string[]>> = {};
 
 	const loginSchema = yup.object({
-		email: yup.string().email().required(),
-		password: yup.string().required()
+		email: yup.string().email().required()
 	});
 
 	async function submit(): Promise<void> {
-		const { password, email } = inputValues;
-
 		loading = true;
-		const result = await authEmailAndPassword.login(email, password);
+		await authEmailAndPassword.sendPasswordResetEmail(inputValues.email);
 		loading = false;
-
-		if (result instanceof AppError) {
-			if (result.code === APP_ERROR_CODES.auth.wrongPassword) {
-				errors.password = ['Wrong password.'];
-			}
-			if (result.code === APP_ERROR_CODES.auth.invalidEmail) {
-				errors.email = ['Invalid email.'];
-			}
-			if (result.code === APP_ERROR_CODES.auth.userNotFound) {
-				errors.email = ["Email doesn't exists."];
-			}
-		} else {
-			onSubmit();
-		}
+		onSubmit();
 	}
 
 	function validate(): void {
@@ -53,14 +46,13 @@
 	}
 
 	function handleBlur(inputName: keyof typeof inputValues): void {
-		inputValues[inputName] && touchedInputs.add(inputName);
 		validate();
 	}
 
 	$: {
 		errors;
 	}
-	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: disableSubmit = !!Object.keys(errors).length;
 	$: loading = false;
 </script>
 
@@ -76,24 +68,10 @@
 		label="*Email"
 		name="email"
 		id="email"
-		errors={(touchedInputs.has('email') ? errors.email : []) || []}
+		errors={errors.email || []}
 	/>
 
-	<TextInput
-		value={inputValues.password}
-		onChange={(v) => {
-			inputValues.password = v;
-			validate();
-		}}
-		onBlur={() => handleBlur('password')}
-		type="password"
-		label="*Password"
-		name="password"
-		id="password"
-		errors={(touchedInputs.has('password') ? errors.password : []) || []}
-	/>
-
-	<SubmitButton disabled={disableSubmit} {loading}>Login</SubmitButton>
+	<SubmitButton disabled={disableSubmit} {loading}>Send Email With Password Reset</SubmitButton>
 </form>
 
 <style>

@@ -1,3 +1,5 @@
+import { app } from './../firebase/appFirebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import { writable } from 'svelte/store';
 
@@ -11,4 +13,16 @@ function createUserStore() {
 	};
 }
 
-export const userStore = createUserStore();
+const userStore = createUserStore();
+
+const auth = app.getAuth();
+
+onAuthStateChanged(auth, (_user) => {
+	if (_user) {
+		userStore.login(_user);
+	} else {
+		userStore.logout();
+	}
+});
+
+export { userStore };
