@@ -4,7 +4,8 @@ export const PATHS = {
 	},
 	auth: {
 		signup: '/auth/signup',
-		login: '/auth/login'
+		login: '/auth/login',
+		passwordResetEmail: '/auth/password-reset-email'
 	},
 	app: {
 		index: '/app'

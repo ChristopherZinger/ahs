@@ -11,7 +11,11 @@ enum SettingsDocs {
 export const getRemoteSettings = async (): Promise<FS_Settings | AppError> => {
 	const f = app.getFirestore();
 	try {
-		return (await getDoc(doc(getSettingsCollection(f), SettingsDocs.GENERAL))).data();
+		const result = (await getDoc(doc(getSettingsCollection(f), SettingsDocs.GENERAL))).data();
+		if (!result) {
+			throw new AppError({ code: 'app_settings_could_not_be_retrieved' });
+		}
+		return result;
 	} catch (error) {
 		return new AppError({ error });
 	}

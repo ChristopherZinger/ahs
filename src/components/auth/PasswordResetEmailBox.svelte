@@ -1,35 +1,29 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+
 	import { PATHS } from '$src/firebase/paths';
 	import Link from '../buttons/Link.svelte';
-	import Heading from '../text/Heading.svelte';
-	import LoginForm from './LoginForm.svelte';
+	import PasswordResetEmailForm from './PasswordResetEmailForm.svelte';
 
 	function onSubmit(): void {
 		goto(PATHS.app.index);
 	}
 </script>
 
-<div class="login-box light-shadow">
-	<header>
-		<Heading h={2} size={4}>Details</Heading>
-	</header>
-	<div class="login-form-wrapper">
-		<LoginForm {onSubmit} />
+<div class="password-reset-email-box light-shadow">
+	<div class="password-reset-email-wrapper">
+		<PasswordResetEmailForm {onSubmit} />
 	</div>
 	<div class="links">
-		<Link href={PATHS.auth.passwordResetEmail} size="xs" style="color:var(--color-gray);"
-			>forgot password</Link
-		>
 		<span>
-			Don't have accout yet?
-			<Link href={PATHS.auth.signup} size="s">signup</Link>
+			go back to
+			<Link href={PATHS.auth.login} size="s">login</Link>
 		</span>
 	</div>
 </div>
 
 <style>
-	.login-form-wrapper {
+	.password-reset-email-wrapper {
 		margin: 0 0 15px 0;
 	}
 
@@ -40,21 +34,13 @@
 		align-items: center;
 	}
 
-	header {
-		display: none;
-	}
-
 	@media only screen and (min-width: 786px) {
-		.login-box {
+		.password-reset-email-box {
 			padding: 30px 48px;
 			box-shadow: var(--shadow-light);
 		}
 
-		header {
-			display: block;
-		}
-
-		.login-form-wrapper {
+		.password-reset-email-wrapper {
 			margin: 50px 0px 15px 0;
 		}
 
