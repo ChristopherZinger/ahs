@@ -1,10 +1,10 @@
 <script lang="ts">
 	import TextInput from '$src/components/form/TextInput.svelte';
-	import SubmitBtn from '$src/components/form/SubmitButton.svelte';
-	import { authEmailAndPassword, FS_AUTH_ERR_CODES } from '$src/firebase/auth/emailAndPassword';
-	import { AppError } from '$src/errors';
+	import { authEmailAndPassword } from '$src/firebase/auth/emailAndPassword';
 	import * as yup from 'yup';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
+	import { AppError, APP_ERROR_CODES } from '$src/errors';
+	import SubmitButton from '../form/SubmitButton.svelte';
 
 	export let onSubmit: () => void;
 
@@ -19,17 +19,12 @@
 	let errors: Partial<Record<keyof typeof inputData, string[]>> = {};
 
 	async function submit(): Promise<void> {
-		const inputErrors = hasInputDataErrors({ ...inputData });
-
-		if (inputErrors) {
-			updateUiErrors(inputErrors);
-			return;
-		}
-
+		loading = true;
 		const result = await authEmailAndPassword.signup(inputData.email, inputData.password);
+		loading = false;
 
-		if (result instanceof Error) {
-			if ((result.code = FS_AUTH_ERR_CODES.EMAIL_ALREADY_EXISTS)) {
+		if (result instanceof AppError) {
+			if ((result.code = APP_ERROR_CODES.auth.emailAlreadyExists)) {
 				errors.email = ['This email is taken. Choose another one or login.'];
 			}
 		} else {
@@ -38,7 +33,6 @@
 	}
 
 	function updateUiErrors(_errors: Record<string, string[]>): void {
-		console.log('update errors');
 		errors = _errors;
 	}
 
@@ -55,6 +49,7 @@
 	}): void | Record<string, string[]> {
 		try {
 			signupSchema.validateSync(data, { abortEarly: false });
+			return {};
 		} catch (errors) {
 			return sortYupErrorsByInput(errors.inner);
 		}
@@ -63,8 +58,8 @@
 	$: {
 		errors;
 	}
-
-	$: console.log(touchedInputs);
+	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: loading = false;
 </script>
 
 <form on:submit|preventDefault={submit}>
@@ -125,7 +120,7 @@
 		errors={(touchedInputs.has('passwordRepeat') ? errors.passwordRepeat : []) || []}
 	/>
 
-	<SubmitBtn>Next</SubmitBtn>
+	<SubmitButton disabled={disableSubmit} {loading}>Next</SubmitButton>
 </form>
 
 <style>

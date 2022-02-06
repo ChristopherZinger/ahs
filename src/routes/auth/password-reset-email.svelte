@@ -1,14 +1,14 @@
 <script lang="ts">
-	import LoginBox from '$src/components/auth/LoginBox.svelte';
+	import PasswordResetEmailBox from '$src/components/auth/PasswordResetEmailBox.svelte';
 	import Heading from '$src/components/text/Heading.svelte';
 </script>
 
 <div class="app-container">
 	<div class="login-view">
 		<header>
-			<Heading h={1}>Login</Heading>
+			<Heading h={1}>Password Reset Email</Heading>
 		</header>
-		<LoginBox />
+		<PasswordResetEmailBox />
 	</div>
 </div>
 

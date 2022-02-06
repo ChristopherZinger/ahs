@@ -3,16 +3,16 @@
 	import Oops from '$src/components/Oops.svelte';
 	import RedirectIfSurvey from '$src/components/RedirectIfSurvey.svelte';
 	import UserStoreProvider from '$src/components/UserStoreProvider.svelte';
-	import { FS_ReadError } from '$src/errors';
+	import { AppError } from '$src/errors';
 	import { getRemoteSettings } from '$src/firebase/settings/getFirestoreSettings';
 
 	let isModeSurvey: boolean | undefined = undefined;
-	let err: undefined | FS_ReadError | Error = undefined;
+	let err: undefined | AppError | Error = undefined;
 	let isLoading = true;
 
 	getRemoteSettings()
 		.then((result) => {
-			if (result instanceof FS_ReadError) {
+			if (result instanceof AppError) {
 				err = result;
 				isLoading = false;
 				return;

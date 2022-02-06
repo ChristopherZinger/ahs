@@ -1,22 +1,23 @@
-export type AppErrors = Error | AppError | FS_ReadError | FS_WriteError;
+export const APP_ERROR_CODES = {
+	default: 'something-went-wrong',
+	auth: {
+		emailAlreadyExists: 'auth/email-already-exists',
+		insufficientPermissions: 'auth/insufficient-permission',
+		wrongPassword: 'auth/wrong-password',
+		invalidEmail: 'auth/invalid-email',
+		userNotFound: 'auth/user-not-found'
+	}
+};
+
 export class AppError extends Error {
-	constructor(
-		public message: string = 'App Error',
-		public originalError?: Error,
-		public info: string[] = []
-	) {
+	public code: undefined | string;
+	public error: unknown;
+	public info: undefined | Record<string, unknown>;
+	constructor(err?: { code?: string; error?: unknown; info?: Record<string, unknown> }) {
 		super();
-	}
-}
-
-export class FS_ReadError extends AppError {
-	constructor(public message: string, public originalError?: Error, public info: string[] = []) {
-		super('Permission Error', originalError, info);
-	}
-}
-
-export class FS_WriteError extends AppError {
-	constructor(public message: string, public originalError?: Error, public info: string[] = []) {
-		super('Permission Error', originalError, info);
+		const { code, error, info } = err || {};
+		this.code = code || APP_ERROR_CODES.default;
+		this.error = error;
+		this.info = info;
 	}
 }
