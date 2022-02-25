@@ -37,21 +37,12 @@
 {:else}
 	<RedirectIfSurvey>
 		<UserStoreProvider>
-			<div class="layout flex-col">
+			<div class="h-full flex flex-col">
 				{#if isModeSurvey !== undefined && isModeSurvey === false}
 					<AppNav />
 				{/if}
-				<div class="grow">
-					<slot />
-				</div>
+				<slot />
 			</div>
 		</UserStoreProvider>
 	</RedirectIfSurvey>
 {/if}
-
-<style>
-	.layout {
-		height: 100%;
-		max-height: 100%;
-	}
-</style>
