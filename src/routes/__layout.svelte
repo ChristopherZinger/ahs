@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../app.css';
 	import AppNav from '$src/components/AppNav.svelte';
 	import Oops from '$src/components/Oops.svelte';
 	import RedirectIfSurvey from '$src/components/RedirectIfSurvey.svelte';
@@ -36,11 +37,13 @@
 {:else}
 	<RedirectIfSurvey>
 		<UserStoreProvider>
-			{#if isModeSurvey !== undefined && isModeSurvey === false}
-				<AppNav />
-			{/if}
-			<div class="layout">
-				<slot />
+			<div class="layout flex-col">
+				{#if isModeSurvey !== undefined && isModeSurvey === false}
+					<AppNav />
+				{/if}
+				<div class="grow">
+					<slot />
+				</div>
 			</div>
 		</UserStoreProvider>
 	</RedirectIfSurvey>
