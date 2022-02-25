@@ -20,7 +20,7 @@ textarea:active {
 textarea,
 textarea:focus {
 	resize: vertical;
-	border-bottom: 2px solid var(--color-black);
+	border: 2px solid var(--color-black);
 }
 
 .animate-label label {
