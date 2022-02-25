@@ -22,7 +22,9 @@
 				<li><a href="/app/add-office">add office</a></li>
 				<li><a href="/app/profile">your profile</a></li>
 			</ul>
-			<slot />
+			<div class="max-w-5xl mx-auto">
+				<slot />
+			</div>
 		</div>
 	</div>
 {/if}
