@@ -16,7 +16,7 @@
 </script>
 
 <div class="lg:flex lg:space-x-10 mb-10">
-	<div class="w-full lg:w-1/2">
+	<div class="w-full lg:w-1/2 mb-1  0 lg:mb-0">
 		<FindAndSelectInput
 			label="Country"
 			name="country"
