@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input,
+input:focus,
+input:active,
+textarea,
+textarea:focus,
+textarea:active {
+	background-color: var(--color-white);
+	outline: none;
+	border: none;
+	padding: var(--spacing-s) var(--spacing-m);
+	width: 100%;
+	box-sizing: border-box;
+	background: transparent;
+}
+
+input:focus,
+textarea:focus {
+	border: 1px solid var(--color-gray);
+}
+
+textarea {
+	resize: vertical;
+}

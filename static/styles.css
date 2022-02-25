@@ -156,46 +156,9 @@ h6,
 	font-family: 'Alata';
 }
 
-.section {
-	padding: 150px 0;
-}
-
-input,
-input:focus,
-input:active,
-textarea,
-textarea:focus,
-textarea:active {
-	background-color: var(--color-white);
-	outline: none;
-	border: none;
-	padding: var(--spacing-s) var(--spacing-m);
-	width: 100%;
-	box-sizing: border-box;
-}
-
-input:focus,
-textarea:focus {
-	border: 1px solid var(--color-gray);
-}
-
-textarea {
-	resize: vertical;
-}
-
 @media only screen and (min-width: 786px) {
 	.with-border {
 		box-sizing: border-box;
 		border: 40px solid var(--color-white);
-	}
-}
-
-.app-container {
-	padding: 0 15px;
-}
-
-@media only screen and (min-width: 786px) {
-	.app-container {
-		padding: 0 50px;
 	}
 }
