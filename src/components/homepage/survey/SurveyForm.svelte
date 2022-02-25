@@ -16,9 +16,9 @@
 	import { setOfficeName } from '$src/stores/surveyModeStore';
 	import SurveyRedFlags from './SurveyRedFlags.svelte';
 	import SurveyStory from './SurveyStory.svelte';
-	import type { ValidationError } from 'yup';
 	import { surveyFormSchema } from '$src/firebase/office/officeStoryValidator';
 	import InvalidInputMessageList from './InvalidInputMessageList.svelte';
+	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
 
 	export const officeStory: OfficeStoryInput = {
 		office: '',
@@ -59,26 +59,12 @@
 		errors = _errors;
 	};
 
-	const sortErrorsByInputKey = (err: any) =>
-		Object.values<ValidationError>(err.inner).reduce((acc, val) => {
-			const { path, errors } = val;
-			if (Object.keys(officeStory).includes(path as keyof OfficeStoryInput)) {
-				let _path = path as keyof OfficeStoryInput;
-				if (_path && errors.length && acc[_path]) {
-					acc[_path] = [...acc[_path], ...val.errors];
-				}
-				acc[_path] = errors;
-				return acc;
-			}
-			return acc;
-		}, {} as OfficeStoryInputErrors);
-
 	const validateInputs = () => {
 		try {
 			surveyFormSchema.validateSync(officeStory, { abortEarly: false });
 			updateInputErrorMessages({});
 		} catch (err) {
-			updateInputErrorMessages(sortErrorsByInputKey(err));
+			updateInputErrorMessages(sortYupErrorsByInput(err.inner));
 		}
 	};
 
