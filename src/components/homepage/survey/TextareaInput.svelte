@@ -8,6 +8,7 @@
 	export let onInput: (val: string) => void;
 	export let errors: string[];
 	export let maxLength: number | undefined;
+	export let placeholder: string = '';
 
 	$: touched = false;
 	$: _errors = errors;
@@ -26,6 +27,7 @@
 		{value}
 		on:input={(e) => onInput(e.currentTarget.value)}
 		on:blur={(e) => handleBlur(e.currentTarget.value)}
+		{placeholder}
 	/>
 	{#if maxLength && value.length > 10}
 		<span>{maxLength - value.length} characters left.</span>

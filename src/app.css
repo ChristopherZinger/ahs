@@ -17,11 +17,30 @@ textarea:active {
 	background: transparent;
 }
 
-input:focus,
+textarea,
 textarea:focus {
-	border: 1px solid var(--color-gray);
+	resize: vertical;
+	border-bottom: 2px solid var(--color-black);
 }
 
-textarea {
-	resize: vertical;
+.animate-label label {
+	transition-duration: 0.3s;
+	transform: translateY(30px);
+	display: block;
+}
+
+.animate-label label.hasValue {
+	transform: translateY(0);
+}
+
+.animate-label:focus-within label {
+	transform: translateY(0);
+}
+
+.animate-label:hover label {
+	transform: translateY(0);
+}
+
+.underline-input {
+	border-bottom: 2px solid var(--color-black);
 }

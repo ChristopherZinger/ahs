@@ -15,8 +15,8 @@
 	export let handleStoryChange: (val: string) => void;
 </script>
 
-<div class="flex flex-wrap space-x-10 mb-10">
-	<div class="grow">
+<div class="lg:flex lg:space-x-10 mb-10">
+	<div class="w-full lg:w-1/2">
 		<FindAndSelectInput
 			label="Country"
 			name="country"
@@ -28,7 +28,7 @@
 		/>
 	</div>
 
-	<div class="grow">
+	<div class="w-full lg:w-1/2">
 		<TextInput
 			id="office-city"
 			name="office-city"
@@ -51,7 +51,7 @@
 			type="text"
 			value={officeStory.office}
 			onBlur={validateInputs}
-			onChange={handleCityChange}
+			onChange={handleOfficeNameChange}
 			errors={errors.office || []}
 		/>
 	</div>
@@ -60,6 +60,9 @@
 <div class="flex mb-10">
 	<div class="grow">
 		<TextareaInput
+			placeholder={officeStory.office
+				? `Share your story in ${officeStory.office} here.`
+				: 'Write your story here.'}
 			label="Your Story"
 			name="story"
 			onBlur={(i) => {

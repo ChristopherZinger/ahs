@@ -24,7 +24,7 @@
 	}
 </script>
 
-<div class="text-input">
+<div>
 	<div class="underline-input animate-label">
 		<label for={id} class:hasValue={!!value}>{label}</label>
 		<input
@@ -40,33 +40,3 @@
 		<InvalidInputMessageList errorMessages={errors} />
 	{/if}
 </div>
-
-<style>
-	.text-input {
-		width: 100%;
-	}
-
-	.underline-input {
-		border-bottom: 2px solid var(--color-black);
-		width: 100%;
-	}
-
-	.underline-input input:active,
-	input:focus {
-		border: none;
-	}
-
-	.animate-label label {
-		transition-duration: 0.3s;
-		transform: translateY(30px);
-		display: block;
-	}
-
-	.animate-label label.hasValue {
-		transform: translateY(0);
-	}
-
-	.animate-label:focus-within label {
-		transform: translateY(0);
-	}
-</style>
