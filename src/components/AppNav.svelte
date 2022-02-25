@@ -7,8 +7,8 @@
 	$: homePath = $userStore ? PATHS.app.index : PATHS.home.index;
 </script>
 
-<nav class="app-container">
-	<div class="nav-inner">
+<nav class="px-4">
+	<div class="flex justify-between my-10 lg:mx-28 ">
 		<div class="nav-left">
 			<div class="logo">
 				<a href={homePath}>
@@ -35,19 +35,6 @@
 </nav>
 
 <style>
-	nav {
-		height: 120px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.nav-inner {
-		display: flex;
-		justify-content: space-between;
-		flex: 1;
-	}
-
 	.logo a,
 	.logo a:visited,
 	.logo a:active {
@@ -71,14 +58,6 @@
 	}
 
 	@media only screen and (min-width: 786px) {
-		nav {
-			height: 200px;
-		}
-
-		.nav-inner {
-			margin: 0 90px;
-		}
-
 		.logo a,
 		.logo a:visited,
 		.logo a:active {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { FS_ReadError } from '$src/errors';
+	import { AppError } from '$src/errors';
 	import type { FS_Settings } from '$src/firebase/FS_types';
 	import { PATHS } from '$src/firebase/paths';
 	import { getRemoteSettings } from '$src/firebase/settings/getFirestoreSettings';
@@ -16,7 +16,7 @@
 
 	onMount(async () => {
 		const result = await getRemoteSettings();
-		if (!(result instanceof FS_ReadError)) {
+		if (!(result instanceof AppError)) {
 			redirectToHomeIfNotSurveyMode(result);
 			settings = result;
 		}
