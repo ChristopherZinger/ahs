@@ -46,10 +46,6 @@
 		width: 100%;
 	}
 
-	input {
-		background: transparent;
-	}
-
 	.underline-input {
 		border-bottom: 2px solid var(--color-black);
 		width: 100%;
