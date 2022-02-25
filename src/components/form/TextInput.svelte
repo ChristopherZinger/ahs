@@ -9,6 +9,19 @@
 	export let onChange: (value: string) => void;
 	export let onBlur: (value: string) => void = () => {};
 	export let errors: string[] = [];
+
+	type InputEvent = Event & {
+		currentTarget: EventTarget & HTMLInputElement;
+	};
+
+	$: touched = false;
+
+	function handleBlur(e: InputEvent) {
+		if (e.currentTarget.value) {
+			touched = true;
+		}
+		onBlur(e.currentTarget.value);
+	}
 </script>
 
 <div class="text-input">
@@ -19,16 +32,22 @@
 			{id}
 			{name}
 			on:input={(e) => onChange(e.currentTarget.value)}
-			on:blur={(e) => onBlur(e.currentTarget.value)}
+			on:blur={handleBlur}
 			{value}
 		/>
 	</div>
-	<InvalidInputMessageList errorMessages={errors} />
+	{#if touched}
+		<InvalidInputMessageList errorMessages={errors} />
+	{/if}
 </div>
 
 <style>
 	.text-input {
 		width: 100%;
+	}
+
+	input {
+		background: transparent;
 	}
 
 	.underline-input {
