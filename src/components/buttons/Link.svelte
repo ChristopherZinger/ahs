@@ -5,7 +5,7 @@
 	export let underline = true;
 </script>
 
-<a {href} class={`${size} ${underline} flex gap-x-2 items-center`} {style}
+<a {href} class:underline class={`${size} flex gap-x-2 items-center`} {style}
 	><slot />
 	{#if $$slots.icon}
 		<span class="icon"><slot name="icon" /></span>
@@ -18,7 +18,7 @@
 		color: var(--color-black);
 	}
 
-	a.underline {
+	.underline {
 		text-decoration: underline;
 	}
 
