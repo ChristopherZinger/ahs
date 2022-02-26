@@ -16,7 +16,7 @@
 {#if $userStore}
 	<div class="grow lg:pb-4 lg:pr-4 lg:pl-4">
 		<div id="app" class="h-full px-4 lg:px-28">
-			<ul id="app-nav" class="flex space-x-10 py-10">
+			<ul id="app-nav" class="flex space-x-10 py-10 lg:mb-20">
 				<li><a href="/app/search">search</a></li>
 				<li><a href="/app/add-story">add story</a></li>
 				<li><a href="/app/add-office">add office</a></li>
