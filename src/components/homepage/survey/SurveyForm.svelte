@@ -115,11 +115,6 @@
 </form>
 
 <style>
-	.survey__form div:first-child,
-	.survey__form div:nth-child(4) {
-		flex-basis: 100%;
-	}
-
 	.submit {
 		margin-top: var(--spacing-xxl);
 		display: flex;
