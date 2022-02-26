@@ -3,12 +3,9 @@
 </script>
 
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import SubmitBtn from '$src/components/buttons/SubmitBtn.svelte';
-	import { AppError } from '$src/errors';
 	import type { OfficeStoryInput } from '$src/firebase/office/shema';
-	import { addSurvey } from '$src/firebase/survey/addSurvey';
-	import { RedFlagsDisplayNames, RedFlagsValues } from '$src/firebase/survey/shema';
+	import { RedFlagsDisplayNames, RedFlagsValues, SurveyInput } from '$src/firebase/survey/shema';
 	import {
 		constructSurveyInputFromOfficeInputAndRedFlags,
 		redFlagsToArray
@@ -20,6 +17,7 @@
 	import InvalidInputMessageList from './InvalidInputMessageList.svelte';
 	import { sortYupErrorsByInput } from '$src/firebase/utils/sortValidationErrorsByInput';
 
+	export let onSubmit: (data: SurveyInput) => Promise<void>;
 	export const officeStory: OfficeStoryInput = {
 		office: '',
 		city: '',
@@ -68,7 +66,7 @@
 		}
 	};
 
-	const handleSubmit = async () => {
+	async function handleSubmit() {
 		const flags = redFlagsToArray(redFlags);
 		const data = constructSurveyInputFromOfficeInputAndRedFlags(officeStory, flags);
 
@@ -80,25 +78,25 @@
 		}
 
 		isLoading = true;
-		const result = await addSurvey(data);
+		await onSubmit(data);
 		isLoading = false;
-
-		if (!(result instanceof AppError)) {
-			goto(`survey/thanks?id=${result.id}`);
-		}
-	};
+	}
 </script>
 
+<h5>Your Story</h5>
+
 <form on:submit|preventDefault={handleSubmit} class="survey__form">
-	<SurveyStory
-		{officeStory}
-		{errors}
-		{validateInputs}
-		{handleOfficeNameChange}
-		{handleCityChange}
-		{handleSelectCountry}
-		{handleStoryChange}
-	/>
+	<div class="mb-20">
+		<SurveyStory
+			{officeStory}
+			{errors}
+			{validateInputs}
+			{handleOfficeNameChange}
+			{handleCityChange}
+			{handleSelectCountry}
+			{handleStoryChange}
+		/>
+	</div>
 
 	<SurveyRedFlags {redFlags} />
 
