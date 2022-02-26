@@ -1,17 +1,21 @@
 import { app } from './../appFirebase';
 import { AppError } from './../../errors';
-import type { SurveyInput } from './shema';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import type { SurveyInput, Survey_FsDoc } from './shema';
+import { addDoc, collection } from 'firebase/firestore';
 import type { DocumentReference } from 'firebase/firestore';
 import { Collections } from '$src/constants';
 
-export const addSurvey = async (_data: SurveyInput): Promise<DocumentReference | AppError> => {
+export const addSurvey = async (
+	_data: SurveyInput,
+	user: string
+): Promise<DocumentReference | AppError> => {
 	const firestore = app.getFirestore();
 
-	const data = {
+	const data: Survey_FsDoc = {
 		..._data,
-		isReviewed: false,
-		createdAt: serverTimestamp()
+		reviewedAt: null,
+		createdBy: user,
+		createdAt: new Date().getTime()
 	};
 
 	try {

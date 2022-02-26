@@ -1,3 +1,4 @@
+import type { FieldValue } from 'firebase/firestore';
 import type { OfficeStoryInput } from '../office/shema';
 
 export const RedFlagsDisplayNames = {
@@ -70,3 +71,9 @@ export type RedFlagsValues = {
 };
 
 export type SurveyInput = OfficeStoryInput & { redFlags: string[] };
+
+export type Survey_FsDoc = SurveyInput & {
+	createdAt: number;
+	createdBy: string;
+	reviewedAt: null | number;
+};
