@@ -5,17 +5,22 @@
 	import { AppError } from '$src/errors';
 	import { addSurvey } from '$src/firebase/survey/addSurvey';
 	import type { SurveyInput } from '$src/firebase/survey/shema';
+	import { userStore } from '$src/stores/userStore';
 
 	const currentPath = $page.url.pathname;
 
+	const user = $userStore;
+
 	async function onSubmit(data: SurveyInput) {
-		// const result = await addSurvey(data);
+		if ($userStore) {
+			const result = await addSurvey(data, $userStore.uid);
 
-		// if (result instanceof AppError) {
-		// 	return;
-		// }
+			if (result instanceof AppError) {
+				return;
+			}
 
-		goto(`${currentPath}/thanks`);
+			goto(`${currentPath}/thanks`);
+		}
 	}
 </script>
 

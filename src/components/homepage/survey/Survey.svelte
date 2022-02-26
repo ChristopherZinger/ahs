@@ -9,7 +9,7 @@
 	$: officeName = $surveyModeStore.office.name;
 
 	async function onSubmit(data: SurveyInput) {
-		const result = await addSurvey(data);
+		const result = await addSurvey(data, 'anonymous');
 
 		if (!(result instanceof AppError)) {
 			goto(`/survey/thanks?id=${result.id}`);
