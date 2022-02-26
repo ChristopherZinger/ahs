@@ -19,9 +19,9 @@
 	}
 
 	button:hover {
-		background-color: var(--color-orange);
-		border-color: var(--color-orange);
-		color: white;
+		background-color: var(--color-black);
+		border-color: var(--color-black);
+		color: var(--color-white);
 		font-weight: 900;
 	}
 	button:disabled {
