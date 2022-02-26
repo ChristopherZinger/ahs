@@ -5,7 +5,7 @@
 		RedFlagsDisplayNames,
 		RedFlagsValues
 	} from '$src/firebase/survey/shema';
-	import { surveyModeStore } from '$src/stores/surveyModeStore';
+	// import { surveyModeStore } from '$src/stores/surveyModeStore';
 
 	export let redFlags: RedFlagsValues;
 
@@ -18,10 +18,10 @@
 </script>
 
 <div class="survey-red-flags">
-	<h2 class="mb-10">Red Flags</h2>
-	<p class="max-w-2xl">
+	<h4 class="mb-10">Red Flags</h4>
+	<!-- <p class="max-w-2xl">
 		Sign up all the bullshit that is going on in {$surveyModeStore.office.name || '___'}
-	</p>
+	</p> -->
 	{#each Object.keys(RedFlagsDisplayNames) as category, i}
 		{#if category in RedFlagsDisplayNames}
 			<div class="survey-red-flags__category">
