@@ -85,7 +85,7 @@
 
 <h5>Your Story</h5>
 
-<form on:submit|preventDefault={handleSubmit} class="survey__form">
+<form on:submit|preventDefault={handleSubmit} class="pb-10">
 	<div class="mb-20">
 		<SurveyStory
 			{officeStory}
