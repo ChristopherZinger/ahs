@@ -9,7 +9,6 @@
 	export let errors: string[];
 	export let validateInputs: () => void;
 
-	$: _errors = errors;
 	$: touched = false;
 
 	let searchInput: undefined | HTMLInputElement;
@@ -33,12 +32,14 @@
 			const typed = options.find(
 				(o) => o.display.toLowerCase() === searchInput?.value.toLowerCase()
 			);
-			if (typed) {
-				onSelect(typed.val);
-				searchInput.value = typed.display;
-			} else {
-				onSelect('');
-				searchInput.value = '';
+			if (searchInput) {
+				if (typed) {
+					onSelect(typed.val);
+					searchInput.value = typed.display;
+				} else {
+					onSelect('');
+					searchInput.value = '';
+				}
 			}
 
 			_options = options;
@@ -51,9 +52,10 @@
 </script>
 
 <div>
-	<label for={name}>{label}</label>
-	<div class="text-option-input-wrapper">
+	<div class="text-option-input-wrapper animate-label">
+		<label for={name} class:hasValue={!!value}>{label}</label>
 		<input
+			class="underline-input"
 			type="text"
 			id={name}
 			name="office-country"
@@ -79,8 +81,8 @@
 		</ul>
 	</div>
 
-	{#if touched && _errors.length}
-		<InvalidInputMessageList errorMessages={_errors} />
+	{#if touched && errors.length}
+		<InvalidInputMessageList errorMessages={errors} />
 	{/if}
 </div>
 
@@ -91,14 +93,15 @@
 
 	.option-list {
 		position: absolute;
-		background-color: white;
-		border: 1px solid gray;
+		background-color: var(--color-white);
+		border: 1px solid var(--color-black);
 		max-height: 400px;
 		list-style: none;
 		width: 100%;
 		padding: 0;
 		overflow-y: scroll;
 		display: block;
+		z-index: 1;
 	}
 
 	.option-list.isHidden {
@@ -114,10 +117,5 @@
 		background-color: var(--color-gray-light);
 		padding-left: var(--spacing);
 		font-style: italic;
-	}
-
-	label {
-		display: block;
-		margin-bottom: var(--spacing-s);
 	}
 </style>

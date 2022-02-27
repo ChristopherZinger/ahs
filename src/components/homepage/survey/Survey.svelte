@@ -1,8 +1,20 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { AppError } from '$src/errors';
+	import { addSurvey } from '$src/firebase/survey/addSurvey';
+	import type { SurveyInput } from '$src/firebase/survey/shema';
 	import { surveyModeStore } from '$src/stores/surveyModeStore';
 	import SurveyForm from './SurveyForm.svelte';
 
 	$: officeName = $surveyModeStore.office.name;
+
+	async function onSubmit(data: SurveyInput) {
+		const result = await addSurvey(data, 'anonymous');
+
+		if (!(result instanceof AppError)) {
+			goto(`/survey/thanks?id=${result.id}`);
+		}
+	}
 </script>
 
 <!-- section id is is used as href reference. dont' change it. -->
@@ -18,7 +30,7 @@
 		</p>
 	</div>
 	<div class="survey__form-wrapper">
-		<SurveyForm />
+		<SurveyForm {onSubmit} />
 	</div>
 </section>
 

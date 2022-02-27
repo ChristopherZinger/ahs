@@ -2,9 +2,10 @@
 	export let href = '#';
 	export let size: 'xs' | 's' | 'm' | 'l' = 's';
 	export let style: string = '';
+	export let underline = true;
 </script>
 
-<a {href} class={`${size}`} {style}
+<a {href} class:underline class={`${size} flex gap-x-2 items-center`} {style}
 	><slot />
 	{#if $$slots.icon}
 		<span class="icon"><slot name="icon" /></span>
@@ -15,6 +16,10 @@
 	a,
 	a:visited {
 		color: var(--color-black);
+	}
+
+	.underline {
+		text-decoration: underline;
 	}
 
 	a.xs {

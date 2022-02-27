@@ -13,7 +13,6 @@
 		email: ''
 	};
 
-	const touchedInputs = new Set();
 	let errors: Partial<Record<keyof typeof inputValues, string[]>> = {};
 
 	const loginSchema = yup.object({
@@ -52,15 +51,10 @@
 		}
 	}
 
-	function handleBlur(inputName: keyof typeof inputValues): void {
-		inputValues[inputName] && touchedInputs.add(inputName);
-		validate();
-	}
-
 	$: {
 		errors;
 	}
-	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: disableSubmit = !!Object.keys(errors).length;
 	$: loading = false;
 </script>
 
@@ -71,12 +65,12 @@
 			inputValues.email = v;
 			validate();
 		}}
-		onBlur={() => handleBlur('email')}
+		onBlur={validate}
 		type="email"
 		label="*Email"
 		name="email"
 		id="email"
-		errors={(touchedInputs.has('email') ? errors.email : []) || []}
+		errors={errors.email || []}
 	/>
 
 	<TextInput
@@ -85,12 +79,12 @@
 			inputValues.password = v;
 			validate();
 		}}
-		onBlur={() => handleBlur('password')}
+		onBlur={validate}
 		type="password"
 		label="*Password"
 		name="password"
 		id="password"
-		errors={(touchedInputs.has('password') ? errors.password : []) || []}
+		errors={errors.password || []}
 	/>
 
 	<SubmitButton disabled={disableSubmit} {loading}>Login</SubmitButton>
