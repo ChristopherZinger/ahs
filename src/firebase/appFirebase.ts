@@ -4,8 +4,9 @@ import type { FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import type { Auth } from 'firebase/auth';
 import config from './config';
-import { getFirestore } from 'firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 
 class AppFirebase {
 	private firebase: FirebaseApp;
@@ -16,10 +17,20 @@ class AppFirebase {
 		this.firebase = initializeApp(config);
 		this.auth = getAuth(this.firebase);
 		this.firestore = getFirestore(this.firebase);
+
+		this.initFirebaseFunctionsEmulator();
+		this.initFirebaseFirestoreEmulator();
 	}
 
-	public init() {
-		console.log('init app');
+	private initFirebaseFunctionsEmulator() {
+		console.log('Starting firebase functions emulator.');
+		const functions = getFunctions(this.firebase);
+		connectFunctionsEmulator(functions, 'localhost', 5001);
+	}
+
+	private initFirebaseFirestoreEmulator() {
+		console.log('Starting firebase firestore emulator.');
+		connectFirestoreEmulator(this.firestore, 'localhost', 8080);
 	}
 
 	public getFirebase() {
