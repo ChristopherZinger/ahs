@@ -11,3 +11,4 @@ firestore-debug.log
 ui-debug.log
 functions/package-lock.json
 package-lock.json
+firebasekey.json
