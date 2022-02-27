@@ -6,6 +6,7 @@ import type { Auth } from 'firebase/auth';
 import config from './config';
 import { getFirestore } from 'firebase/firestore';
 import type { Firestore } from 'firebase/firestore';
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 
 class AppFirebase {
 	private firebase: FirebaseApp;
@@ -16,10 +17,14 @@ class AppFirebase {
 		this.firebase = initializeApp(config);
 		this.auth = getAuth(this.firebase);
 		this.firestore = getFirestore(this.firebase);
+
+		this.initFirebaseFunctionsEmulator();
 	}
 
-	public init() {
-		console.log('init app');
+	private initFirebaseFunctionsEmulator() {
+		console.log('start emulators');
+		const functions = getFunctions(this.firebase);
+		connectFunctionsEmulator(functions, 'localhost', 5001);
 	}
 
 	public getFirebase() {
