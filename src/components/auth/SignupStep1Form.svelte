@@ -14,8 +14,6 @@
 		email: ''
 	};
 
-	const touchedInputs = new Set();
-
 	let errors: Partial<Record<keyof typeof inputData, string[]>> = {};
 
 	async function submit(): Promise<void> {
@@ -44,11 +42,6 @@
 		}
 	}
 
-	function handleBlur(inputName: keyof typeof inputData): void {
-		inputData[inputName] && touchedInputs.add(inputName);
-		validate();
-	}
-
 	const signupSchema = yup.object({
 		email: yup.string().email().required(),
 		password: yup.string().required().min(7),
@@ -58,7 +51,7 @@
 	$: {
 		errors;
 	}
-	$: disableSubmit = touchedInputs.size === 0 || !!Object.keys(errors).length;
+	$: disableSubmit = !!Object.keys(errors).length;
 	$: loading = false;
 </script>
 
@@ -69,15 +62,12 @@
 			inputData.email = v;
 			validate();
 		}}
-		onBlur={() => {
-			touchedInputs.add('email');
-			handleBlur('email');
-		}}
+		onBlur={validate}
 		type="email"
 		label="*Email"
 		name="email"
 		id="email"
-		errors={(touchedInputs.has('email') ? errors.email : []) || []}
+		errors={errors.email || []}
 	/>
 
 	<TextInput
@@ -86,15 +76,12 @@
 			inputData.password = v;
 			validate();
 		}}
-		onBlur={() => {
-			touchedInputs.add('password');
-			handleBlur('password');
-		}}
+		onBlur={validate}
 		type="password"
 		label="*Password"
 		name="password"
 		id="password"
-		errors={(touchedInputs.has('password') ? errors.password : []) || []}
+		errors={errors.password || []}
 	/>
 
 	<TextInput
@@ -103,15 +90,12 @@
 			inputData.passwordRepeat = v;
 			validate();
 		}}
-		onBlur={() => {
-			touchedInputs.add('passwordRepeat');
-			handleBlur('passwordRepeat');
-		}}
+		onBlur={validate}
 		type="password"
 		label="*Password Repeat"
 		name="repeat"
 		id="repeat"
-		errors={(touchedInputs.has('passwordRepeat') ? errors.passwordRepeat : []) || []}
+		errors={errors.passwordRepeat || []}
 	/>
 
 	<SubmitButton disabled={disableSubmit} {loading}>Next</SubmitButton>

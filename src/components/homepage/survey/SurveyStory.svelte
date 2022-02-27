@@ -4,7 +4,7 @@
 	import FindAndSelectInput from './FindAndSelectInput.svelte';
 	import type { OfficeStoryInputErrors } from './SurveyForm.svelte';
 	import TextareaInput from './TextareaInput.svelte';
-	import TextInput from './TextInput.svelte';
+	import TextInput from '$src/components/form/TextInput.svelte';
 
 	export let officeStory: OfficeStoryInput;
 	export let errors: OfficeStoryInputErrors;
@@ -15,30 +15,8 @@
 	export let handleStoryChange: (val: string) => void;
 </script>
 
-<div class="survey__story">
-	<div>
-		<TextInput
-			name="office-name"
-			label="Office name"
-			errors={errors.office || []}
-			onBlur={validateInputs}
-			onInput={handleOfficeNameChange}
-			value={officeStory.office}
-		/>
-	</div>
-
-	<div>
-		<TextInput
-			name="city"
-			label="City"
-			errors={errors.city || []}
-			onBlur={validateInputs}
-			onInput={handleCityChange}
-			value={officeStory.city}
-		/>
-	</div>
-
-	<div>
+<div class="lg:flex lg:space-x-10 mb-10">
+	<div class="w-full lg:w-1/2 mb-1  0 lg:mb-0">
 		<FindAndSelectInput
 			label="Country"
 			name="country"
@@ -50,8 +28,41 @@
 		/>
 	</div>
 
-	<div>
+	<div class="w-full lg:w-1/2">
+		<TextInput
+			id="office-city"
+			name="office-city"
+			label="City"
+			type="text"
+			value={officeStory.city}
+			onBlur={validateInputs}
+			onChange={handleCityChange}
+			errors={errors.city || []}
+		/>
+	</div>
+</div>
+
+<div class="flex mb-10">
+	<div class="grow">
+		<TextInput
+			id="office-name"
+			name="office-name"
+			label="Office Name"
+			type="text"
+			value={officeStory.office}
+			onBlur={validateInputs}
+			onChange={handleOfficeNameChange}
+			errors={errors.office || []}
+		/>
+	</div>
+</div>
+
+<div class="flex mb-10">
+	<div class="grow">
 		<TextareaInput
+			placeholder={officeStory.office
+				? `Share your story in ${officeStory.office} here.`
+				: 'Write your story here.'}
 			label="Your Story"
 			name="story"
 			onBlur={(i) => {
@@ -67,29 +78,3 @@
 		/>
 	</div>
 </div>
-
-<style>
-	.survey__story {
-		display: flex;
-		flex-wrap: wrap;
-		column-gap: var(--spacing-m);
-		row-gap: var(--spacing-m);
-	}
-
-	@media only screen and (min-width: 786px) {
-		.survey__story > div {
-			flex-basis: calc((100% - (var(--spacing-m) * 2)) / 2);
-		}
-
-		.survey__story > div:first-child {
-			flex-basis: 100%;
-		}
-
-		.survey__story > div:nth-child(4) {
-			width: 600px;
-			margin: auto;
-			flex-grow: 0;
-			flex-basis: auto;
-		}
-	}
-</style>

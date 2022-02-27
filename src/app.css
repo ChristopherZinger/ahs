@@ -1,3 +1,107 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/**
+ * Heading
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	/* font-family: 'Poppins SemiBold'; */
+	font-family: 'DM Serif Display';
+}
+
+h1,
+.h1 {
+	font-size: 3em;
+}
+
+h2,
+.h2 {
+	font-size: 2.66em;
+}
+
+h3,
+.h3 {
+	font-size: 2.33em;
+}
+
+h4,
+.h4 {
+	font-size: 2em;
+}
+
+h5,
+.h5 {
+	font-size: 1.66em;
+}
+
+h6,
+.h6 {
+	font-size: 1.33em;
+}
+
+*:not(h1, h2, h3, h4, h5, h6) {
+	font-family: 'Alata';
+}
+
+body,
+html,
+#svelte {
+	min-height: 100vh;
+	height: 100%;
+	padding: 0;
+	margin: 0 !important;
+	box-sizing: border-box;
+}
+
+/**
+ * Inputs
+ */
+
+input,
+input:focus,
+input:active,
+textarea,
+textarea:focus,
+textarea:active {
+	background-color: var(--color-white);
+	outline: none;
+	border: none;
+	padding: var(--spacing-s) var(--spacing-m);
+	width: 100%;
+	box-sizing: border-box;
+	background: transparent;
+}
+
+textarea,
+textarea:focus {
+	resize: vertical;
+	border: 2px solid var(--color-black);
+}
+
+.animate-label label {
+	transition-duration: 0.3s;
+	transform: translateY(30px);
+	display: block;
+}
+
+.animate-label label.hasValue {
+	transform: translateY(0);
+}
+
+.animate-label:focus-within label {
+	transform: translateY(0);
+}
+
+.animate-label:hover label {
+	transform: translateY(0);
+}
+
+.underline-input {
+	border-bottom: 2px solid var(--color-black);
+}
