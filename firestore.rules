@@ -5,6 +5,20 @@ service cloud.firestore {
   	// match /{document=**} {
   	// allow read, write: if false;
   	// }
+    match /survey/{surveyId} {
+    	allow write: if true;
+      allow read: if false;
+    }
+    
+    match /user-survey-relations/{relationId} {
+    	allow write: if true;
+      allow read: if false;
+    }
+    
+    match /settings/{settingsId} {
+    	allow read: if true;
+      allow write: if false;
+    }
   
     match /architecture-offices/{officeId} {
       allow read: if true;
